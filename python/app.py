@@ -25,7 +25,13 @@ def get_database_interface() -> DatabaseInterface:
 
 @app.route("/v1/test/health", methods=["GET"])
 def test_health():
-    return {"is_healthy": True}
+    return {
+        "is_successful": True,
+        "response": {
+            "is_healthy": True
+        },
+        "error": None
+    }
 
 
 @app.route("/v1/test/json/form", methods=["POST"])
@@ -47,8 +53,9 @@ def test_json_json():
 def get_docker_api_specification():
 
     output = {
-        "data": None,
-        "exception": None
+        "is_successful": None,
+        "response": None,
+        "error": None
     }
 
     try:
@@ -57,12 +64,14 @@ def get_docker_api_specification():
 
         docker_api_specification = database_interface.get_docker_api_specification()
 
-        output["data"] = {
+        output["response"] = {
             "docker_api_specification": docker_api_specification
         }
+        output["is_successful"] = True
 
     except Exception as ex:
-        output["exception"] = f"{ex}\n{traceback.format_exc()}"
+        output["error"] = f"{ex}\n{traceback.format_exc()}"
+        output["is_successful"] = False
 
     return output
 
@@ -71,8 +80,9 @@ def get_docker_api_specification():
 def get_component_specification_by_component_uuid():
 
     output = {
-        "data": None,
-        "exception": None
+        "is_successful": None,
+        "response": None,
+        "error": None
     }
 
     try:
@@ -91,12 +101,14 @@ def get_component_specification_by_component_uuid():
                 component_uuid=component_uuid
             )
 
-            output["data"] = {
+            output["response"] = {
                 "component_specification": component_specification
             }
+            output["is_successful"] = True
 
     except Exception as ex:
-        output["exception"] = str(ex)
+        output["error"] = f"{ex}\n{traceback.format_exc()}"
+        output["is_successful"] = False
 
     return output
 

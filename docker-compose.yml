@@ -2,16 +2,16 @@ version: '3.7'
 
 services:
         web_server:
-                container_name: nginx
+                container_name: cm_nginx
                 build:
                         #location of dockerfile
                         context: ./nginx
                 ports:
-                        - 8080:80
+                        - 8081:80
                 depends_on:
                         - app
         app:
-                container_name: flask
+                container_name: cm_flask
                 build:
                         #location of dockerfile
                         context: ./python
@@ -22,9 +22,9 @@ services:
                         - database
              
         database:
-                container_name: postgres
+                container_name: cm_postgres
                 image: postgres:latest
                 env_file: postgres/database.conf
                 ports:
-                        - 5433:5432
+                        - 5434:5432
                 
