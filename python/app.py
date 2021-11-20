@@ -101,9 +101,7 @@ def get_component_specification_by_component_uuid():
                 component_uuid=component_uuid
             )
 
-            output["response"] = {
-                "component_specification": component_specification
-            }
+            output["response"] = component_specification
             output["is_successful"] = True
 
     except Exception as ex:
